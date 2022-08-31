@@ -9,8 +9,7 @@ export class LearnCdkStage extends Stage {
 
     constructor(scope: Construct, id: string, props?: StageProps) {
         super(scope, id, props);
-        const service = new LearnCdkStack(this, 'LearnCdkStack');
-        // Expose CdkpipelinesDemoStack's output one level higher
+        const service = new LearnCdkStack(this, 'FastApiBackendStack');
         this.urlOutput = service.urlOutput;
     }
 }

@@ -18,7 +18,12 @@ export class LearnCdkStack extends Stack {
       runtime: lambda.Runtime.PYTHON_3_9,    // execution environment
       entry: lambda.Code.fromAsset('backend').path,  // code loaded from "backend" directory
       handler: 'handler',
-      index: "main.py"
+      index: "main.py",
+      layers: [
+        new pythonLambda.PythonLayerVersion(this, 'FastApiLambdaLayer', {
+          entry: lambda.Code.fromAsset('backend').path + "/appLayer",
+        }),
+      ]
     });
 
 
