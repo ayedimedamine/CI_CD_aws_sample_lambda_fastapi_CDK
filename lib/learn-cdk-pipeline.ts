@@ -21,8 +21,6 @@ export class LearnCdkPipeLine extends Stack {
 
         const pipeline = new pipelines.CodePipeline(this, 'Pipeline', {
             synth: new pipelines.ShellStep('Synth', {
-                // Use a connection created using the AWS console to authenticate to GitHub
-                // Other sources are available.
 
                 input: pipelines.CodePipelineSource.codeCommit(backendFastapiServerless, props.branch),
                 commands: [
@@ -30,7 +28,10 @@ export class LearnCdkPipeLine extends Stack {
                     'npm run build',
                     'npx cdk synth',
                 ],
-            }),
+            }
+
+            ),
+            dockerEnabledForSynth: true
         });
         const stage = new LearnCdkStage(this, props.stage);
         pipeline.addStage(stage)
