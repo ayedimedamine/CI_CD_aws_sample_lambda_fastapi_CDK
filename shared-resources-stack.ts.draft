@@ -9,7 +9,7 @@ interface sharedStackProps extends StackProps {
     lambdaHandlerFunction: lambda.Function;
 }
 export class sharedResourcesStack extends Stack {
-    public readonly urlOutput;
+    public readonly urlOutput: CfnOutput;
     constructor(scope: Construct, id: string, props: sharedStackProps) {
         super(scope, id, props);
         const backendFastapiServerless = codecommit.Repository.fromRepositoryName(this, "fastApiRepo", props.repositoryName);
@@ -17,7 +17,9 @@ export class sharedResourcesStack extends Stack {
             handler: props.lambdaHandlerFunction,
         });
 
-        this.urlOutput = restApi.url
+        this.urlOutput = new CfnOutput(this, 'Url', {
+            value: restApi.url,
+        });
     }
 
 
