@@ -26,6 +26,11 @@ export class LearnCdkStack extends Stack {
       proxy: true
     });
 
+    const deployment = new apigtw.Deployment(this, 'Deployment', { api: gtw });
+    new apigtw.Stage(this, "DevStage", {
+      deployment: deployment,
+      stageName: "dev"
+    });
     this.urlOutput = new CfnOutput(this, 'Url', {
       value: gtw.url,
     });
