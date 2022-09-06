@@ -1,38 +1,52 @@
-import { CfnOutput, Stack, StackProps } from 'aws-cdk-lib';
-import { Construct } from 'constructs';
-import * as lambda from 'aws-cdk-lib/aws-lambda';
+import { aws_ssm as ssm, Stack, StackProps } from "aws-cdk-lib";
+import { Construct } from "constructs";
+import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as pythonLambda from "@aws-cdk/aws-lambda-python-alpha";
-import * as apigtw from 'aws-cdk-lib/aws-apigateway';
-
-
+import * as apigtw from "aws-cdk-lib/aws-apigateway";
+import { RestApiInfos } from "./interfaces/RestApiInfos";
+interface backendStackProps extends StackProps {
+  // restapiINFO: RestApiInfos;
+  branch: string;
+  stageName: string;
+}
 export class LearnCdkStack extends Stack {
-  /**
-    * The URL of the API Gateway endpoint, for use in the integ tests
-    */
-  public readonly urlOutput: CfnOutput;
-
-  constructor(scope: Construct, id: string, props?: StackProps) {
+  constructor(scope: Construct, id: string, props: backendStackProps) {
     super(scope, id, props);
 
-    const lambdaHandlerFunction = new pythonLambda.PythonFunction(this, "lambdaHandlerFunction", {
-      runtime: lambda.Runtime.PYTHON_3_9,    // execution environment
-      entry: lambda.Code.fromAsset('backend').path,  // code loaded from "backend" directory
-      handler: 'handler',
-      index: "main.py"
-    });
+    const lambdaHandlerFunction = new pythonLambda.PythonFunction(
+      this,
+      "lambdaHandlerFunction",
+      {
+        runtime: lambda.Runtime.PYTHON_3_9, // execution environment
+        entry: lambda.Code.fromAsset("backend").path, // code loaded from "backend" directory
+        handler: "handler",
+        index: "main.py",
+      }
+    );
+    const restApiId = ssm.StringParameter.fromStringParameterAttributes(
+      this,
+      "RestApi-restApiId",
+      { parameterName: "/serverless/backend/sharedResources/RestApi/restApiId" }
+    );
+    const restApiRootResourceId = ssm.StringParameter.fromStringParameterAttributes(
+      this,
+      "RestApi-restApiRootResourceId",
+      { parameterName: "/serverless/backend/sharedResources/RestApi/restApiRootResourceId" }
+    );
+    // const restApi = apigtw.RestApi.fromRestApiId(this, "restApiBackend", restApiId.stringValue); //
 
-    const gtw = new apigtw.LambdaRestApi(this, "EndpointAPi", {
-      handler: lambdaHandlerFunction,
-      proxy: true
-    });
+    const restApi = apigtw.RestApi.fromRestApiAttributes(this, "BackendRestApi", {
+      restApiId: restApiId.stringValue,
+      rootResourceId: restApiRootResourceId.stringValue
+    })
+    // restApi.root.addMethod("GET", new apigtw.LambdaIntegration(lambdaHandlerFunction, { proxy: true }))
 
-    const deployment = new apigtw.Deployment(this, 'Deployment', { api: gtw });
-    new apigtw.Stage(this, "DevStage", {
+    restApi.root.addProxy({ defaultIntegration: new apigtw.LambdaIntegration(lambdaHandlerFunction), anyMethod: true })
+    const deployment = new apigtw.Deployment(this, 'Deployment', { api: restApi });
+
+    new apigtw.Stage(this, props.stageName, {
       deployment: deployment,
-      stageName: "dev"
-    });
-    this.urlOutput = new CfnOutput(this, 'Url', {
-      value: gtw.url,
+      stageName: props.stageName
     });
   }
 }
