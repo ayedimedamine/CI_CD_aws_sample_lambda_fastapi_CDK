@@ -18,7 +18,9 @@ export class sharedResourcesStack extends Stack {
         const restApi = new apigtw.RestApi(this, "serverlessBackendAPI", {
             deploy: false
         });
-        restApi.root.addProxy()
+        restApi.root.addCorsPreflight({
+            allowOrigins: ["*"]
+        })
         // const restApiINFO = JSON.stringify({ "restApiId": restApi.restApiId, "restApiRootResourceId": restApi.restApiRootResourceId })
         // console.log("maybee ? == ", restApi.restApiId)
         new ssm.StringParameter(
