@@ -5,7 +5,8 @@ from fastapi.middleware.cors import CORSMiddleware
 import os 
 
 stage = os.getenv('STAGE',"devStage")
-app = FastAPI(openapi_url=f"/{stage}/openapi.json")
+app = FastAPI(openapi_prefix=f"/{stage}")
+print(app.openapi_url)
 origins = [
     "*",
     "http://localhost:4000",
@@ -21,6 +22,7 @@ app.add_middleware(
 def slp(time:int):
     sleep(time)
     print("done")
+
 @app.get("/")
 async def read_root(tasks : BackgroundTasks):
     tasks.add_task(slp,3)
