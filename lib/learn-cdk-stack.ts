@@ -39,8 +39,14 @@ export class LearnCdkStack extends Stack {
       restApiId: restApiId.stringValue,
       rootResourceId: restApiRootResourceId.stringValue
     })
+    const lambdaIntegration = new apigtw.LambdaIntegration(lambdaHandlerFunction)
 
-    restApi.root.addProxy({ defaultIntegration: new apigtw.LambdaIntegration(lambdaHandlerFunction), anyMethod: true })
+    restApi.root.addProxy({
+      defaultIntegration: lambdaIntegration, anyMethod: true, defaultCorsPreflightOptions: {
+        allowOrigins: ["*"]
+      }
+    })
+    // restApi.root.addMethod("ANY", lambdaIntegration)
     const deployment = new apigtw.Deployment(this, 'Deployment', { api: restApi });
 
     new apigtw.Stage(this, props.stageName, {
