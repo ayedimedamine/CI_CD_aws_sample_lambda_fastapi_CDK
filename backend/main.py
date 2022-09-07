@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 from mangum import Mangum
 from fastapi.middleware.cors import CORSMiddleware
-app = FastAPI()
+import os 
+stage = os.getenv('STAGE')
+app = FastAPI(root_path=f'/{stage}')
 origins = [
     "*",
     "http://localhost:4000",

@@ -16,100 +16,42 @@ Resources:
           - Ref: AWS::Partition
           - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
     Metadata:
-      aws:cdk:path: fastapiTestStack/lambdaHandlerFunction/ServiceRole/Resource
+      aws:cdk:path: fastApiBackendDevPipeLine/devStage/FastApiBackendStack/lambdaHandlerFunction/ServiceRole/Resource
   lambdaHandlerFunction3C9B68FA:
     Type: AWS::Lambda::Function
     Properties:
       Code:
         S3Bucket:
           Fn::Sub: cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}
-        S3Key: 188f7717fb5d859990761f62a5ce9476cb72d62f99ee3ce6c8ebf7524b775346.zip
+        S3Key: fea11b282f0c116923247cd1a2fa392b8447dcd7398c98aa7879377ab0033c8c.zip
       Role:
         Fn::GetAtt:
         - lambdaHandlerFunctionServiceRoleC97E543D
         - Arn
+      Environment:
+        Variables:
+          STAGE: devStage
       Handler: main.handler
       Runtime: python3.9
     DependsOn:
     - lambdaHandlerFunctionServiceRoleC97E543D
     Metadata:
-      aws:cdk:path: fastapiTestStack/lambdaHandlerFunction/Resource
-      aws:asset:path: ../../cdk.out/asset.188f7717fb5d859990761f62a5ce9476cb72d62f99ee3ce6c8ebf7524b775346
+      aws:cdk:path: fastApiBackendDevPipeLine/devStage/FastApiBackendStack/lambdaHandlerFunction/Resource
+      aws:asset:path: ../../cdk.out/asset.fea11b282f0c116923247cd1a2fa392b8447dcd7398c98aa7879377ab0033c8c
       aws:asset:is-bundled: true
       aws:asset:property: Code
-  EndpointEEF1FD8F:
-    Type: AWS::ApiGateway::RestApi
-    Properties:
-      Name: Endpoint
-    Metadata:
-      aws:cdk:path: fastapiTestStack/Endpoint/Resource
-  EndpointCloudWatchRoleC3C64E0F:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Statement:
-        - Action: sts:AssumeRole
-          Effect: Allow
-          Principal:
-            Service: apigateway.amazonaws.com
-        Version: '2012-10-17'
-      ManagedPolicyArns:
-      - Fn::Join:
-        - ''
-        - - 'arn:'
-          - Ref: AWS::Partition
-          - :iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs
-    Metadata:
-      aws:cdk:path: fastapiTestStack/Endpoint/CloudWatchRole/Resource
-  EndpointAccountB8304247:
-    Type: AWS::ApiGateway::Account
-    Properties:
-      CloudWatchRoleArn:
-        Fn::GetAtt:
-        - EndpointCloudWatchRoleC3C64E0F
-        - Arn
-    DependsOn:
-    - EndpointEEF1FD8F
-    Metadata:
-      aws:cdk:path: fastapiTestStack/Endpoint/Account
-  EndpointDeployment318525DAc0926bfbb0054618d6beb38e17800242:
-    Type: AWS::ApiGateway::Deployment
-    Properties:
-      RestApiId:
-        Ref: EndpointEEF1FD8F
-      Description: Automatically created by the RestApi construct
-    DependsOn:
-    - EndpointproxyANYC09721C5
-    - Endpointproxy39E2174E
-    - EndpointANY485C938B
-    Metadata:
-      aws:cdk:path: fastapiTestStack/Endpoint/Deployment/Resource
-  EndpointDeploymentStageprodB78BEEA0:
-    Type: AWS::ApiGateway::Stage
-    Properties:
-      RestApiId:
-        Ref: EndpointEEF1FD8F
-      DeploymentId:
-        Ref: EndpointDeployment318525DAc0926bfbb0054618d6beb38e17800242
-      StageName: prod
-    DependsOn:
-    - EndpointAccountB8304247
-    Metadata:
-      aws:cdk:path: fastapiTestStack/Endpoint/DeploymentStage.prod/Resource
-  Endpointproxy39E2174E:
+  BackendRestApiproxy9A110E94:
     Type: AWS::ApiGateway::Resource
     Properties:
       ParentId:
-        Fn::GetAtt:
-        - EndpointEEF1FD8F
-        - RootResourceId
+        Ref: RestApirestApiRootResourceIdParameter
       PathPart: '{proxy+}'
       RestApiId:
-        Ref: EndpointEEF1FD8F
+        Ref: RestApirestApiIdParameter
     Metadata:
-      aws:cdk:path: fastapiTestStack/Endpoint/Default/{proxy+}/Resource
-  EndpointproxyANYApiPermissionfastapiTestStackEndpoint8CC3D794ANYproxy2CE22FFE:
-    Type: AWS::Lambda::Permission
+      aws:cdk:path: fastApiBackendDevPipeLine/devStage/FastApiBackendStack/BackendRestApi/Default/{proxy+}/Resource
+  ? BackendRestApiproxyANYApiPermissionfastApiBackendDevPipeLinedevStageFastApiBackendStackBackendRestApi74687F79ANYproxy0D80319C
+  : Type: AWS::Lambda::Permission
     Properties:
       Action: lambda:InvokeFunction
       FunctionName:
@@ -127,14 +69,12 @@ Resources:
           - ':'
           - Ref: AWS::AccountId
           - ':'
-          - Ref: EndpointEEF1FD8F
-          - /
-          - Ref: EndpointDeploymentStageprodB78BEEA0
-          - /*/*
+          - Ref: RestApirestApiIdParameter
+          - /*/*/*
     Metadata:
-      aws:cdk:path: fastapiTestStack/Endpoint/Default/{proxy+}/ANY/ApiPermission.fastapiTestStackEndpoint8CC3D794.ANY..{proxy+}
-  EndpointproxyANYApiPermissionTestfastapiTestStackEndpoint8CC3D794ANYproxy8FC1A63C:
-    Type: AWS::Lambda::Permission
+      aws:cdk:path: fastApiBackendDevPipeLine/devStage/FastApiBackendStack/BackendRestApi/Default/{proxy+}/ANY/ApiPermission.fastApiBackendDevPipeLinedevStageFastApiBackendStackBackendRestApi74687F79.ANY..{proxy+}
+  ? BackendRestApiproxyANYApiPermissionTestfastApiBackendDevPipeLinedevStageFastApiBackendStackBackendRestApi74687F79ANYproxy9A32F0A3
+  : Type: AWS::Lambda::Permission
     Properties:
       Action: lambda:InvokeFunction
       FunctionName:
@@ -152,18 +92,18 @@ Resources:
           - ':'
           - Ref: AWS::AccountId
           - ':'
-          - Ref: EndpointEEF1FD8F
+          - Ref: RestApirestApiIdParameter
           - /test-invoke-stage/*/*
     Metadata:
-      aws:cdk:path: fastapiTestStack/Endpoint/Default/{proxy+}/ANY/ApiPermission.Test.fastapiTestStackEndpoint8CC3D794.ANY..{proxy+}
-  EndpointproxyANYC09721C5:
+      aws:cdk:path: fastApiBackendDevPipeLine/devStage/FastApiBackendStack/BackendRestApi/Default/{proxy+}/ANY/ApiPermission.Test.fastApiBackendDevPipeLinedevStageFastApiBackendStackBackendRestApi74687F79.ANY..{proxy+}
+  BackendRestApiproxyANY4461A61E:
     Type: AWS::ApiGateway::Method
     Properties:
       HttpMethod: ANY
       ResourceId:
-        Ref: Endpointproxy39E2174E
+        Ref: BackendRestApiproxy9A110E94
       RestApiId:
-        Ref: EndpointEEF1FD8F
+        Ref: RestApirestApiIdParameter
       AuthorizationType: NONE
       Integration:
         IntegrationHttpMethod: POST
@@ -181,117 +121,56 @@ Resources:
               - Arn
             - /invocations
     Metadata:
-      aws:cdk:path: fastapiTestStack/Endpoint/Default/{proxy+}/ANY/Resource
-  EndpointANYApiPermissionfastapiTestStackEndpoint8CC3D794ANYCA5991E5:
-    Type: AWS::Lambda::Permission
-    Properties:
-      Action: lambda:InvokeFunction
-      FunctionName:
-        Fn::GetAtt:
-        - lambdaHandlerFunction3C9B68FA
-        - Arn
-      Principal: apigateway.amazonaws.com
-      SourceArn:
-        Fn::Join:
-        - ''
-        - - 'arn:'
-          - Ref: AWS::Partition
-          - ':execute-api:'
-          - Ref: AWS::Region
-          - ':'
-          - Ref: AWS::AccountId
-          - ':'
-          - Ref: EndpointEEF1FD8F
-          - /
-          - Ref: EndpointDeploymentStageprodB78BEEA0
-          - /*/
-    Metadata:
-      aws:cdk:path: fastapiTestStack/Endpoint/Default/ANY/ApiPermission.fastapiTestStackEndpoint8CC3D794.ANY..
-  EndpointANYApiPermissionTestfastapiTestStackEndpoint8CC3D794ANY0F9D4AEB:
-    Type: AWS::Lambda::Permission
-    Properties:
-      Action: lambda:InvokeFunction
-      FunctionName:
-        Fn::GetAtt:
-        - lambdaHandlerFunction3C9B68FA
-        - Arn
-      Principal: apigateway.amazonaws.com
-      SourceArn:
-        Fn::Join:
-        - ''
-        - - 'arn:'
-          - Ref: AWS::Partition
-          - ':execute-api:'
-          - Ref: AWS::Region
-          - ':'
-          - Ref: AWS::AccountId
-          - ':'
-          - Ref: EndpointEEF1FD8F
-          - /test-invoke-stage/*/
-    Metadata:
-      aws:cdk:path: fastapiTestStack/Endpoint/Default/ANY/ApiPermission.Test.fastapiTestStackEndpoint8CC3D794.ANY..
-  EndpointANY485C938B:
+      aws:cdk:path: fastApiBackendDevPipeLine/devStage/FastApiBackendStack/BackendRestApi/Default/{proxy+}/ANY/Resource
+  BackendRestApiANY374070CA:
     Type: AWS::ApiGateway::Method
     Properties:
       HttpMethod: ANY
       ResourceId:
-        Fn::GetAtt:
-        - EndpointEEF1FD8F
-        - RootResourceId
+        Ref: RestApirestApiRootResourceIdParameter
       RestApiId:
-        Ref: EndpointEEF1FD8F
+        Ref: RestApirestApiIdParameter
       AuthorizationType: NONE
       Integration:
-        IntegrationHttpMethod: POST
-        Type: AWS_PROXY
-        Uri:
-          Fn::Join:
-          - ''
-          - - 'arn:'
-            - Ref: AWS::Partition
-            - ':apigateway:'
-            - Ref: AWS::Region
-            - :lambda:path/2015-03-31/functions/
-            - Fn::GetAtt:
-              - lambdaHandlerFunction3C9B68FA
-              - Arn
-            - /invocations
+        Type: MOCK
     Metadata:
-      aws:cdk:path: fastapiTestStack/Endpoint/Default/ANY/Resource
+      aws:cdk:path: fastApiBackendDevPipeLine/devStage/FastApiBackendStack/BackendRestApi/Default/ANY/Resource
+  Deployment37BBD5E4:
+    Type: AWS::ApiGateway::Deployment
+    Properties:
+      RestApiId:
+        Ref: RestApirestApiIdParameter
+    Metadata:
+      aws:cdk:path: fastApiBackendDevPipeLine/devStage/FastApiBackendStack/Deployment/Resource
+  devStageCD9C5E33:
+    Type: AWS::ApiGateway::Stage
+    Properties:
+      RestApiId:
+        Ref: RestApirestApiIdParameter
+      DeploymentId:
+        Ref: Deployment37BBD5E4
+      StageName: devStage
+    Metadata:
+      aws:cdk:path: fastApiBackendDevPipeLine/devStage/FastApiBackendStack/devStage/Resource
   CDKMetadata:
     Type: AWS::CDK::Metadata
     Properties:
-      Analytics: v2:deflate64:H4sIAAAAAAAA/1VQzU7DMAx+lt1Tj65IiBvdECcQVXmAKUtNl7VNoiZhVFHfHSftBJy+n9iOP+8g7O4h3/CrzUTTZb08QfhwXHSMrGOQfIBQ6x7Z4VNFnJktjtxadBbKCKRh70WHbs8tsp4Pp4ZDoPIXr4STWsXWCsdBWktqZtzIlju88gnCayqv0brSyPTHLy2F0F459oym19OARMn9o2jPNi22EGrVfhSY9qhG/T3dnHXwwt/QnXUTrYXNM0tB4hCp2vjw7p3x7l8X8YNWjXQpQvEIecZ7c+Zwt3laj7eNuOTPzESj1VpSJXE7x8yUbhAudvuV0+kfoNhcrJTZSFnlgFAv+AM2ZJCZmgEAAA==
+      Analytics: v2:deflate64:H4sIAAAAAAAA/21QyW6DMBD9Fu5mUkKlqrdmUW+VUPoB0QSmZIIXZJumCPHvtR2QeujpLZrlzWxh2j5DkeHd5XXT5ZIvMH16rDsRrPPEqGA6GUni8KUjzsKVZ3SOvINdhKBhP9Qd+T06EhLVpUGYQvn7oGvPRsfWiqxi54KaBfbcoqc7jmE0Ob/rObUGbgZbUxKVNT/j6qTlK/8gfzVNtBZ2pF6aUZH20fyjwh1t6k1knkUKHAXrNqVCi4o8WfHvpsAPRjfsU+zyFYocZX9FeMrelodtIj5uzvsxxNFLSZXE+oJZaNMQ3NzmuwjvfoEyuznm3A7asyI4PfAXiq8viY4BAAA=
     Metadata:
-      aws:cdk:path: fastapiTestStack/CDKMetadata/Default
+      aws:cdk:path: fastApiBackendDevPipeLine/devStage/FastApiBackendStack/CDKMetadata/Default
     Condition: CDKMetadataAvailable
-Outputs:
-  Endpoint8024A810:
-    Value:
-      Fn::Join:
-      - ''
-      - - https://
-        - Ref: EndpointEEF1FD8F
-        - .execute-api.
-        - Ref: AWS::Region
-        - .
-        - Ref: AWS::URLSuffix
-        - /
-        - Ref: EndpointDeploymentStageprodB78BEEA0
-        - /
-  Url:
-    Value:
-      Fn::Join:
-      - ''
-      - - https://
-        - Ref: EndpointEEF1FD8F
-        - .execute-api.
-        - Ref: AWS::Region
-        - .
-        - Ref: AWS::URLSuffix
-        - /
-        - Ref: EndpointDeploymentStageprodB78BEEA0
-        - /
+Parameters:
+  RestApirestApiIdParameter:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /serverless/backend/sharedResources/RestApi/restApiId
+  RestApirestApiRootResourceIdParameter:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /serverless/backend/sharedResources/RestApi/restApiRootResourceId
+  BootstrapVersion:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /cdk-bootstrap/hnb659fds/version
+    Description: Version of the CDK Bootstrap resources in this environment, automatically
+      retrieved from SSM Parameter Store. [cdk:skip]
 Conditions:
   CDKMetadataAvailable:
     Fn::Or:
@@ -364,12 +243,6 @@ Conditions:
       - Fn::Equals:
         - Ref: AWS::Region
         - us-west-2
-Parameters:
-  BootstrapVersion:
-    Type: AWS::SSM::Parameter::Value<String>
-    Default: /cdk-bootstrap/hnb659fds/version
-    Description: Version of the CDK Bootstrap resources in this environment, automatically
-      retrieved from SSM Parameter Store. [cdk:skip]
 Rules:
   CheckBootstrapVersion:
     Assertions:

@@ -3,9 +3,9 @@ import { Construct } from "constructs";
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as pythonLambda from "@aws-cdk/aws-lambda-python-alpha";
 import * as apigtw from "aws-cdk-lib/aws-apigateway";
-import { RestApiInfos } from "./interfaces/RestApiInfos";
+
 interface backendStackProps extends StackProps {
-  // restapiINFO: RestApiInfos;
+
   branch: string;
   stageName: string;
 }
@@ -23,6 +23,7 @@ export class LearnCdkStack extends Stack {
         index: "main.py",
       }
     );
+    lambdaHandlerFunction.addEnvironment("STAGE", props.stageName);
     const restApiId = ssm.StringParameter.fromStringParameterAttributes(
       this,
       "RestApi-restApiId",
@@ -33,13 +34,11 @@ export class LearnCdkStack extends Stack {
       "RestApi-restApiRootResourceId",
       { parameterName: "/serverless/backend/sharedResources/RestApi/restApiRootResourceId" }
     );
-    // const restApi = apigtw.RestApi.fromRestApiId(this, "restApiBackend", restApiId.stringValue); //
 
     const restApi = apigtw.RestApi.fromRestApiAttributes(this, "BackendRestApi", {
       restApiId: restApiId.stringValue,
       rootResourceId: restApiRootResourceId.stringValue
     })
-    // restApi.root.addMethod("GET", new apigtw.LambdaIntegration(lambdaHandlerFunction, { proxy: true }))
 
     restApi.root.addProxy({ defaultIntegration: new apigtw.LambdaIntegration(lambdaHandlerFunction), anyMethod: true })
     const deployment = new apigtw.Deployment(this, 'Deployment', { api: restApi });
