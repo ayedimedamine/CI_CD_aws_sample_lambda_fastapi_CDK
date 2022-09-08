@@ -27,10 +27,12 @@ export class LearnCdkPipeLine extends Stack {
                     'npm run build',
                     'npx cdk synth',
                 ],
+                primaryOutputDirectory: "CDK/cdk.out"
             }
 
             ),
-            dockerEnabledForSynth: true
+            dockerEnabledForSynth: true,
+
         });
 
         const stage = new LearnCdkStage(this, props.stage, {
