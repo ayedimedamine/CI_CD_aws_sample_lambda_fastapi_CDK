@@ -18,13 +18,13 @@ export class LearnCdkStack extends Stack {
       "lambdaHandlerFunction",
       {
         runtime: lambda.Runtime.PYTHON_3_9, // execution environment
-        entry: lambda.Code.fromAsset("backend").path, // code loaded from "backend" directory
+        entry: lambda.Code.fromAsset("../backend").path, // code loaded from "backend" directory
         handler: "handler",
         index: "main.py",
         timeout: Duration.seconds(10),
         memorySize: 256,
         bundling: {
-          image: DockerImage.fromBuild(lambda.Code.fromAsset("backend").path)
+          image: DockerImage.fromBuild(lambda.Code.fromAsset("../backend").path)
         }
 
       }
