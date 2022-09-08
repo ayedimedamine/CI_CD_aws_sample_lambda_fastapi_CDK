@@ -1,4 +1,5 @@
-import { pipelines, Stack, StackProps } from "aws-cdk-lib";
+import { aws_codebuild as codebuild, pipelines, Stack, StackProps } from "aws-cdk-lib";
+
 import * as codecommit from "aws-cdk-lib/aws-codecommit";
 import { Construct } from "constructs";
 import { LearnCdkStage } from "./learn-cdk-stage";
@@ -17,13 +18,16 @@ export class LearnCdkPipeLine extends Stack {
         super(scope, id, props);
 
         const repository = codecommit.Repository.fromRepositoryName(this, "fastApiRepo", props.repositoryName);
+
         const pipeline = new pipelines.CodePipeline(this, 'Pipeline', {
             synth: new pipelines.ShellStep('Synth', {
 
                 input: pipelines.CodePipelineSource.codeCommit(repository, props.branch),
-                commands: [
+                installCommands: [
                     'cd CDK/',
                     'npm ci',
+                ],
+                commands: [
                     'npm run build',
                     'npx cdk synth',
                 ],
@@ -34,7 +38,6 @@ export class LearnCdkPipeLine extends Stack {
             dockerEnabledForSynth: true,
 
         });
-
         const stage = new LearnCdkStage(this, props.stage, {
             branch: props.branch,
             stageName: props.stage
