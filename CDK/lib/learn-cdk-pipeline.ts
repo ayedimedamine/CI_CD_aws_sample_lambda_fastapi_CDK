@@ -22,7 +22,7 @@ export class LearnCdkPipeLine extends Stack {
 
                 input: pipelines.CodePipelineSource.codeCommit(repository, props.branch),
                 commands: [
-                    'cd CDK',
+                    'cd CDK/',
                     'npm ci',
                     'npm run build',
                     'npx cdk synth',
