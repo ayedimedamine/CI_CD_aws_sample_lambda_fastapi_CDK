@@ -1,4 +1,4 @@
-import { aws_ssm as ssm, Stack, StackProps } from "aws-cdk-lib";
+import { aws_ssm as ssm, DockerImage, Duration, Stack, StackProps } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as pythonLambda from "@aws-cdk/aws-lambda-python-alpha";
@@ -18,9 +18,15 @@ export class LearnCdkStack extends Stack {
       "lambdaHandlerFunction",
       {
         runtime: lambda.Runtime.PYTHON_3_9, // execution environment
-        entry: lambda.Code.fromAsset("backend").path, // code loaded from "backend" directory
+        entry: lambda.Code.fromAsset("../backend").path, // code loaded from "backend" directory
         handler: "handler",
         index: "main.py",
+        timeout: Duration.seconds(10),
+        memorySize: 256,
+        bundling: {
+          image: DockerImage.fromBuild(lambda.Code.fromAsset("../backend").path)
+        }
+
       }
     );
     lambdaHandlerFunction.addEnvironment("STAGE", props.stageName);

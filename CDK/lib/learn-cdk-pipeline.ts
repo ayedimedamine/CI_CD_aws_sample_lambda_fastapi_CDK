@@ -31,6 +31,7 @@ export class LearnCdkPipeLine extends Stack {
             ),
             dockerEnabledForSynth: true
         });
+
         const stage = new LearnCdkStage(this, props.stage, {
             branch: props.branch,
             stageName: props.stage
