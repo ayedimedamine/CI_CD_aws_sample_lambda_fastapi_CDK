@@ -1,0 +1,20 @@
+{
+  "version": "18.0.0",
+  "files": {
+    "3258e0246c4a80e6bfc05c7436763de263ea1f6202f0dd4216306f5d449f3491": {
+      "source": {
+        "path": "fastApiBackendProdPipeLine.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "375778278142-eu-central-1": {
+          "bucketName": "cdk-hnb659fds-assets-375778278142-eu-central-1",
+          "objectKey": "3258e0246c4a80e6bfc05c7436763de263ea1f6202f0dd4216306f5d449f3491.json",
+          "region": "eu-central-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::375778278142:role/cdk-hnb659fds-file-publishing-role-375778278142-eu-central-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

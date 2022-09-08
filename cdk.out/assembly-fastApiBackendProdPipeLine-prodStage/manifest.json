@@ -1,0 +1,131 @@
+{
+  "version": "18.0.0",
+  "artifacts": {
+    "fastApiBackendProdPipeLineprodStageFastApiBackendStackC619CF55.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "fastApiBackendProdPipeLineprodStageFastApiBackendStackC619CF55.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "fastApiBackendProdPipeLineprodStageFastApiBackendStackC619CF55": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "fastApiBackendProdPipeLineprodStageFastApiBackendStackC619CF55.template.json",
+        "validateOnSynth": true,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/40e10c9ceadcc535b2ca886b030481e07ce90583188cf14a631610738782950e.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "fastApiBackendProdPipeLineprodStageFastApiBackendStackC619CF55.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        },
+        "stackName": "prodStage-FastApiBackendStack"
+      },
+      "dependencies": [
+        "fastApiBackendProdPipeLineprodStageFastApiBackendStackC619CF55.assets"
+      ],
+      "metadata": {
+        "/fastApiBackendProdPipeLine/prodStage/FastApiBackendStack/lambdaHandlerFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "lambdaHandlerFunctionServiceRoleC97E543D"
+          }
+        ],
+        "/fastApiBackendProdPipeLine/prodStage/FastApiBackendStack/lambdaHandlerFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "lambdaHandlerFunction3C9B68FA"
+          }
+        ],
+        "/fastApiBackendProdPipeLine/prodStage/FastApiBackendStack/RestApi-restApiId.Parameter": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApirestApiIdParameter"
+          }
+        ],
+        "/fastApiBackendProdPipeLine/prodStage/FastApiBackendStack/RestApi-restApiRootResourceId.Parameter": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApirestApiRootResourceIdParameter"
+          }
+        ],
+        "/fastApiBackendProdPipeLine/prodStage/FastApiBackendStack/BackendRestApi/Default/{proxy+}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BackendRestApiproxy9A110E94"
+          }
+        ],
+        "/fastApiBackendProdPipeLine/prodStage/FastApiBackendStack/BackendRestApi/Default/{proxy+}/ANY/ApiPermission.fastApiBackendProdPipeLineprodStageFastApiBackendStackBackendRestApi4280440A.ANY..{proxy+}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BackendRestApiproxyANYApiPermissionfastApiBackendProdPipeLineprodStageFastApiBackendStackBackendRestApi4280440AANYproxy8EE1457C"
+          }
+        ],
+        "/fastApiBackendProdPipeLine/prodStage/FastApiBackendStack/BackendRestApi/Default/{proxy+}/ANY/ApiPermission.Test.fastApiBackendProdPipeLineprodStageFastApiBackendStackBackendRestApi4280440A.ANY..{proxy+}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BackendRestApiproxyANYApiPermissionTestfastApiBackendProdPipeLineprodStageFastApiBackendStackBackendRestApi4280440AANYproxy01C15493"
+          }
+        ],
+        "/fastApiBackendProdPipeLine/prodStage/FastApiBackendStack/BackendRestApi/Default/{proxy+}/ANY/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BackendRestApiproxyANY4461A61E"
+          }
+        ],
+        "/fastApiBackendProdPipeLine/prodStage/FastApiBackendStack/BackendRestApi/Default/ANY/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BackendRestApiANY374070CA"
+          }
+        ],
+        "/fastApiBackendProdPipeLine/prodStage/FastApiBackendStack/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Deployment37BBD5E4"
+          }
+        ],
+        "/fastApiBackendProdPipeLine/prodStage/FastApiBackendStack/prodStage/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "prodStage9B9040FC"
+          }
+        ],
+        "/fastApiBackendProdPipeLine/prodStage/FastApiBackendStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/fastApiBackendProdPipeLine/prodStage/FastApiBackendStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/fastApiBackendProdPipeLine/prodStage/FastApiBackendStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/fastApiBackendProdPipeLine/prodStage/FastApiBackendStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "fastApiBackendProdPipeLine/prodStage/FastApiBackendStack"
+    }
+  }
+}
