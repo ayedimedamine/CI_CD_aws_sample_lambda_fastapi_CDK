@@ -2,7 +2,7 @@
   "name": "learn-cdk",
   "version": "0.1.0",
   "bin": {
-    "learn-cdk": "backend/bin/learn-cdk.js"
+    "learn-cdk": "bin/learn-cdk.js"
   },
   "scripts": {
     "build": "tsc",
