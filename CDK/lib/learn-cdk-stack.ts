@@ -44,7 +44,8 @@ export class LearnCdkStack extends Stack {
     const restApi = apigtw.RestApi.fromRestApiAttributes(this, "BackendRestApi", {
       restApiId: restApiId.stringValue,
       rootResourceId: restApiRootResourceId.stringValue
-    })
+    });
+
     const lambdaIntegration = new apigtw.LambdaIntegration(lambdaHandlerFunction)
 
     restApi.root.addProxy({
@@ -52,7 +53,7 @@ export class LearnCdkStack extends Stack {
         allowOrigins: ["*"]
       }
     })
-    // restApi.root.addMethod("ANY", lambdaIntegration)
+
     const deployment = new apigtw.Deployment(this, 'Deployment', { api: restApi });
 
     new apigtw.Stage(this, props.stageName, {

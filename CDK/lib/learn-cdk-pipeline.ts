@@ -3,6 +3,7 @@ import { aws_codebuild as codebuild, pipelines, Stack, StackProps } from "aws-cd
 import * as codecommit from "aws-cdk-lib/aws-codecommit";
 import { Construct } from "constructs";
 import { LearnCdkStage } from "./learn-cdk-stage";
+import { IRestApi } from 'aws-cdk-lib/aws-apigateway';
 
 /**
  * The stack that defines the application pipeline
@@ -40,7 +41,7 @@ export class LearnCdkPipeLine extends Stack {
         });
         const stage = new LearnCdkStage(this, props.stage, {
             branch: props.branch,
-            stageName: props.stage
+            stageName: props.stage,
         });
         pipeline.addStage(stage)
     }
