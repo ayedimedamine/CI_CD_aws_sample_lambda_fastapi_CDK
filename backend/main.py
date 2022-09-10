@@ -1,16 +1,27 @@
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 from mangum import Mangum
+from fastapi.middleware.cors import CORSMiddleware
+import os 
+from routes import exemple
+stage = os.getenv('STAGE',"")
+app = FastAPI(openapi_prefix=f"/{stage}",description="Fast API Test application on aws", title="Serverless backend On AWS" )
+origins = [
+    "*",
+    "http://localhost:4000",
+]
+app.include_router(exemple.router, prefix="/exemple")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-app = FastAPI()
+@app.get("/", tags=['MAIN'], response_class=JSONResponse)
+async def root():
+    return {"message": f"test API for {stage}"}
 
-
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: str = None):
-    return {"item_id": item_id, "q": q}
 
 handler = Mangum(app, lifespan="off")

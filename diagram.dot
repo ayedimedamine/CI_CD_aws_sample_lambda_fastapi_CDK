@@ -1,0 +1,224 @@
+digraph "Diagram" {
+  splines = "ortho";
+  pad = "1.0";
+  nodesep = "0.60";
+  ranksep = "0.75";
+  fontname = "Sans-Serif";
+  fontsize = "15";
+  dpi = "200";
+  rankdir = "BT";
+  compound = "true";
+  fontcolor = "#222222";
+  edge [
+    color = "#D5871488",
+    penwidth = 2,
+    arrowhead = "dot",
+    arrowtail = "dot",
+  ];
+  node [
+    shape = "box",
+    style = "rounded",
+    fixedsize = true,
+    width = 1.7,
+    height = 1.7,
+    labelloc = "c",
+    imagescale = true,
+    fontname = "Sans-Serif",
+    fontsize = 8,
+    margin = 8,
+  ];
+  subgraph "App" {
+    subgraph "cluster-SubGraph.App" {
+      graph [
+        label = "App",
+        labelloc = "b",
+        labeljust = "l",
+        margin = "10",
+        fontsize = "16",
+        penwidth = "2",
+        pencolor = "#888888",
+        style = "filled,rounded",
+        fillcolor = "#f3f3f3",
+      ];
+      subgraph "cluster-SubGraph.sharedResources" {
+        graph [
+          label = "sharedResources",
+          labelloc = "b",
+          labeljust = "l",
+          margin = "10",
+          fontsize = "16",
+          penwidth = "2",
+          pencolor = "#888888",
+          style = "filled,rounded",
+          fillcolor = "#e4e4e4",
+        ];
+        "sharedResources/fastApiRepo" [
+          label = " fastApiRepo",
+          fontsize = 12,
+          image = "/usr/local/lib/node_modules/cdk-dia/icons/aws/Service/Arch_Developer- Tools/64/Arch_AWS-CodeCommit_64@5x.png",
+          imagescale = "true",
+          imagepos = "tc",
+          penwidth = "0",
+          shape = "node",
+          fixedsize = "true",
+          labelloc = "b",
+          width = 1.2,
+          height = 1.466,
+        ];
+        "sharedResources/serverlessBackendAPI" [
+          label = " serverlessBackendAPI",
+          fontsize = 12,
+          image = "/usr/local/lib/node_modules/cdk-dia/icons/aws/Service/Arch_Networking-Content/64/Arch_Amazon-API-Gateway_64@5x.png",
+          imagescale = "true",
+          imagepos = "tc",
+          penwidth = "0",
+          shape = "node",
+          fixedsize = "true",
+          labelloc = "b",
+          width = 1.2,
+          height = 1.466,
+        ];
+        "sharedResources/RestApi-restApiId" [
+          label = " RestApi-restApiId",
+          fontsize = 12,
+        ];
+        "sharedResources/RestApi-restApiRootResourceId" [
+          label = " RestApi\nrestApiRootResourceId",
+          fontsize = 12,
+        ];
+      }
+      subgraph "cluster-SubGraph.fastApiBackendProdPipeLine" {
+        graph [
+          label = "fastApiBackendProdPipeLine",
+          labelloc = "b",
+          labeljust = "l",
+          margin = "10",
+          fontsize = "16",
+          penwidth = "2",
+          pencolor = "#888888",
+          style = "filled,rounded",
+          fillcolor = "#e4e4e4",
+        ];
+        "fastApiBackendProdPipeLine/prodStage" [
+          label = " prodStage",
+          fontsize = 12,
+        ];
+        "fastApiBackendProdPipeLine/fastApiRepo/fastApiBackendProdPipeLinePipeline651444CD-prod-EventRule" [
+          label = "\nfastApiBackendProdPip\nprod EventRule",
+          fontsize = 12,
+          image = "/usr/local/lib/node_modules/cdk-dia/icons/aws/Service/Arch_App-Integration/Arch_64/Arch_Amazon-EventBridge_64@5x.png",
+          imagescale = "true",
+          imagepos = "tc",
+          penwidth = "0",
+          shape = "node",
+          fixedsize = "true",
+          labelloc = "b",
+          width = 1.2,
+          height = 1.898,
+        ];
+        subgraph "cluster-SubGraph.Pipeline" {
+          graph [
+            label = "Pipeline",
+            labelloc = "b",
+            labeljust = "l",
+            margin = "10",
+            fontsize = "16",
+            penwidth = "2",
+            pencolor = "#888888",
+            style = "filled,rounded",
+            fillcolor = "#d6d6d6",
+          ];
+          "fastApiBackendProdPipeLine/Pipeline/Pipeline" [
+            label = " Pipeline",
+            fontsize = 12,
+            image = "/usr/local/lib/node_modules/cdk-dia/icons/aws/Service/Arch_Developer- Tools/64/Arch_AWS-CodePipeline_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+          "fastApiBackendProdPipeLine/Pipeline/UpdatePipeline/SelfMutation" [
+            label = " SelfMutation",
+            fontsize = 12,
+            image = "/usr/local/lib/node_modules/cdk-dia/icons/aws/Service/Arch_Developer- Tools/64/Arch_Amazon-CodeBuild_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+          subgraph "cluster-SubGraph.Assets" {
+            graph [
+              label = "Assets",
+              labelloc = "b",
+              labeljust = "l",
+              margin = "10",
+              fontsize = "16",
+              penwidth = "2",
+              pencolor = "#888888",
+              style = "filled,rounded",
+              fillcolor = "#c7c7c7",
+            ];
+            "fastApiBackendProdPipeLine/Pipeline/Assets/FileRole" [
+              label = " FileRole",
+              fontsize = 12,
+              image = "/usr/local/lib/node_modules/cdk-dia/icons/aws/Service/Arch_Security-Identity-Compliance/64/Arch_AWS-Identity-and-Access-Management_64@5x.png",
+              imagescale = "true",
+              imagepos = "tc",
+              penwidth = "0",
+              shape = "node",
+              fixedsize = "true",
+              labelloc = "b",
+              width = 1.2,
+              height = 1.466,
+            ];
+            "fastApiBackendProdPipeLine/Pipeline/Assets/FileAsset1" [
+              label = " FileAsset1",
+              fontsize = 12,
+              image = "/usr/local/lib/node_modules/cdk-dia/icons/aws/Service/Arch_Developer- Tools/64/Arch_Amazon-CodeBuild_64@5x.png",
+              imagescale = "true",
+              imagepos = "tc",
+              penwidth = "0",
+              shape = "node",
+              fixedsize = "true",
+              labelloc = "b",
+              width = 1.2,
+              height = 1.466,
+            ];
+          }
+        }
+      }
+    }
+  }
+  "sharedResources/RestApi-restApiId" -> "sharedResources/serverlessBackendAPI" [
+    dir = "both",
+  ];
+  "sharedResources/RestApi-restApiRootResourceId" -> "sharedResources/serverlessBackendAPI" [
+    dir = "both",
+  ];
+  "fastApiBackendProdPipeLine/Pipeline/Pipeline" -> "fastApiBackendProdPipeLine/Pipeline/UpdatePipeline/SelfMutation" [
+    dir = "both",
+  ];
+  "fastApiBackendProdPipeLine/Pipeline/Pipeline" -> "fastApiBackendProdPipeLine/Pipeline/Assets/FileAsset1" [
+    dir = "both",
+  ];
+  "fastApiBackendProdPipeLine/Pipeline/Assets/FileRole" -> "fastApiBackendProdPipeLine/Pipeline/Pipeline" [
+    dir = "both",
+  ];
+  "fastApiBackendProdPipeLine/Pipeline/Assets/FileAsset1" -> "fastApiBackendProdPipeLine/Pipeline/Assets/FileRole" [
+    dir = "both",
+  ];
+  "fastApiBackendProdPipeLine/Pipeline/UpdatePipeline/SelfMutation" -> "fastApiBackendProdPipeLine/Pipeline/Pipeline" [
+    dir = "both",
+  ];
+  "fastApiBackendProdPipeLine/fastApiRepo/fastApiBackendProdPipeLinePipeline651444CD-prod-EventRule" -> "fastApiBackendProdPipeLine/Pipeline/Pipeline" [
+    dir = "both",
+  ];
+}
